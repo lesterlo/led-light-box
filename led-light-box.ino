@@ -20,7 +20,7 @@ NSEncoder_btn enc(ENCODER_S1_PIN, ENCODER_S2_PIN, ENCODER_KEY_PIN, 4, true);
 
 Adafruit_SSD1306 oled(128, 32, &Wire, -1);//OLED 128x64 No Reset Pin
 
-int led_brightness = 30; //CLip to 0-100%
+int led_brightness = 10; //CLip to 0-100%
 bool light_status = false;
 
 
@@ -32,7 +32,7 @@ void isr_mstimer2()
 
 void showBitmap(void) {
   oled.clearDisplay();
-  oled.drawBitmap(0, 0, pig_rabbit_logoBitmap, 128, 32, WHITE);
+  oled.drawBitmap(10, 0, pig_rabbit_logoBitmap, 128, 32, WHITE);
   oled.display();
   delay(3000);
 }
@@ -56,7 +56,7 @@ void setup() {
   // Set the button monitoring parameter
   // Commented code for using default interval in this example
 
-    enc.setBtnDebounceInterval(80);
+    enc.setBtnDebounceInterval(150);
     enc.setBtnPressInterval(500);
     enc.setBtnHoldInterval(1000);
 
@@ -82,11 +82,11 @@ void loop() {
 
     }
 
+    //Write the PWM value to the LED
     analogWrite(LED_PIN, map(led_brightness, 0, 100, LED_PWM_LOW_BOUND, LED_PWM_HIGH_BOUND));
 
 
     //Button Jobs
-
     enc_btn = enc.get_Button();
     switch(enc_btn)
     {
@@ -129,17 +129,28 @@ void loop() {
     //Show the LED Brightness
     oled.setTextSize(2); // Draw 2X-scale text
     oled.setTextColor(SSD1306_WHITE);
-    oled.setCursor(0, 0);
+    oled.setCursor(10, 5);
     oled.print(F("LED: "));
     oled.print(led_brightness);
     oled.print(F("%"));
 
-    //TEMP
-    //  if(light_status)
-    //     oled.setTextColor(SSD1306_WHITE);
-    // else
-    //     oled.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
+    //Draw the oled outbound, show when led is disabled
+    if(light_status == false)
+        oled.drawRect(0, 0, 128, 32, SSD1306_WHITE);
 
+
+    //Draw the brightness meter bar
+    oled.fillRect(7, 25, 110 , 1, SSD1306_WHITE);
+
+    // Draw the seperation
+
+    //Draw the meter cursor
+    oled.fillRect(
+        map(led_brightness,0,100,7,117), 
+        LED_METER_BAR_XPOS-LED_METER_BAR_CURSOR_H/2, 
+        LED_METER_BAR_CURSOR_W,
+        LED_METER_BAR_CURSOR_H, 
+        SSD1306_WHITE);
 
     oled.display();
 }
