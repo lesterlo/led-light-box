@@ -143,11 +143,20 @@ void loop() {
     oled.fillRect(7, 25, 110 , 1, SSD1306_WHITE);
 
     // Draw the seperation
+    for(int i=0; i<=100; i+=20)
+    {
+        oled.fillRect(
+            map(i,0,100,LED_METER_BAR_XPOS,LED_METER_BAR_XPOS+LED_METER_BAR_WIDTH), 
+            LED_METER_BAR_YPOS-LED_METER_BAR_CURSOR_H/2, 
+            1,
+            LED_METER_BAR_CURSOR_H, 
+            SSD1306_WHITE);
+    }
 
     //Draw the meter cursor
     oled.fillRect(
-        map(led_brightness,0,100,7,117), 
-        LED_METER_BAR_XPOS-LED_METER_BAR_CURSOR_H/2, 
+        map(led_brightness,0,100,LED_METER_BAR_XPOS,LED_METER_BAR_XPOS+LED_METER_BAR_WIDTH), 
+        LED_METER_BAR_YPOS-LED_METER_BAR_CURSOR_H/2, 
         LED_METER_BAR_CURSOR_W,
         LED_METER_BAR_CURSOR_H, 
         SSD1306_WHITE);

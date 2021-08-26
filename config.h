@@ -2,8 +2,9 @@
 
 #define LED_PWM_HIGH_BOUND 0  //pwm value for max brightness
 #define LED_PWM_LOW_BOUND 255 //pwm value for min brightness   
-#define LED_METER_BAR_XPOS 25
-#define LED_METER_BAR_YPOS
+#define LED_METER_BAR_XPOS 7
+#define LED_METER_BAR_YPOS 25
+#define LED_METER_BAR_WIDTH 110
 #define LED_METER_BAR_CURSOR_W 3 //Height
 #define LED_METER_BAR_CURSOR_H 7 //Height
 
