@@ -1,2 +1,3 @@
 # Ignore VScode folder
 .vscode/
+.DS_Store
